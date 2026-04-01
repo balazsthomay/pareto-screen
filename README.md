@@ -41,17 +41,10 @@ BO reaches 93% of the true Pareto hypervolume while evaluating only 24% of the p
 
 ![Pareto frontiers](results/pareto_frontiers.png)
 
-## Relevance to Aqemia
+## Design
 
-This framework targets the compound selection bottleneck in Aqemia's workflow:
+The framework is agnostic to the upstream scoring engine. It accepts (molecule, objective_value) pairs from any source — physics-based, ML-based, or hybrid. Property predictions with uncertainty estimates improve GP calibration but are not required.
 
-- **QEMI generates candidates** — physics-based molecular simulation produces millions of scored molecules
-- **Selection strategy picks winners** — `pareto-screen` decides which candidates are worth synthesizing
-- **Wet-lab validates** — expensive synthesis and testing reveals true properties
-
-The framework is agnostic to the upstream scoring engine. It accepts (molecule, objective_value) pairs from any source — physics-based (like QEMI), ML-based, or hybrid. Property predictions with uncertainty estimates improve GP calibration but are not required.
-
-Key design choices aligned with Aqemia's stack:
 - **PyTorch + BoTorch** for the optimization framework
 - **Discrete pool selection** (not continuous optimization) — matches the virtual screening setting where candidates are a finite set
 - **Configurable objectives** with direction handling — adding a new objective requires one `ObjectiveConfig` entry
