@@ -1,11 +1,14 @@
-"""ChEMBL bioactivity data loading."""
+"""ChEMBL bioactivity data loading via REST API."""
 
 from __future__ import annotations
 
 import math
 
-import numpy as np
 import pandas as pd
+import requests
+
+
+CHEMBL_API_BASE = "https://www.ebi.ac.uk/chembl/api/data"
 
 
 def convert_to_pic50(ic50_nm: float) -> float:
@@ -22,38 +25,73 @@ def deduplicate_activities(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def _fetch_activities_page(
+    target_chembl_id: str,
+    activity_type: str,
+    units: str,
+    limit: int,
+    offset: int,
+) -> dict:
+    """Fetch a single page of activity data from ChEMBL REST API."""
+    url = f"{CHEMBL_API_BASE}/activity.json"
+    params = {
+        "target_chembl_id": target_chembl_id,
+        "standard_type": activity_type,
+        "standard_units": units,
+        "standard_relation": "=",
+        "limit": limit,
+        "offset": offset,
+    }
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
+
+
 def load_chembl_activities(
     target_chembl_id: str = "CHEMBL203",
     activity_types: tuple[str, ...] = ("IC50",),
     units: str = "nM",
+    page_size: int = 1000,
 ) -> pd.DataFrame:
-    """Load bioactivity data from ChEMBL for a given target.
+    """Load bioactivity data from ChEMBL REST API for a given target.
 
     Returns DataFrame with columns: canonical_smiles, standard_value, pic50.
     Deduplicates by median per compound and filters invalid values.
     """
-    import chembl_downloader
+    rows: list[dict[str, str | float]] = []
 
-    activity_type_list = ", ".join(f"'{t}'" for t in activity_types)
-    query = f"""
-        SELECT
-            cs.canonical_smiles,
-            act.standard_value
-        FROM activities act
-        JOIN assays a ON act.assay_id = a.assay_id
-        JOIN target_dictionary td ON a.tid = td.tid
-        JOIN compound_structures cs ON act.molregno = cs.molregno
-        WHERE td.chembl_id = '{target_chembl_id}'
-          AND act.standard_type IN ({activity_type_list})
-          AND act.standard_units = '{units}'
-          AND act.standard_relation = '='
-          AND act.standard_value IS NOT NULL
-          AND act.standard_value > 0
-    """
+    for activity_type in activity_types:
+        offset = 0
+        while True:
+            data = _fetch_activities_page(
+                target_chembl_id, activity_type, units, page_size, offset
+            )
+            activities = data.get("activities", [])
+            if not activities:
+                break
 
-    df = chembl_downloader.query(query)
-    df["standard_value"] = pd.to_numeric(df["standard_value"], errors="coerce")
-    df = df.dropna(subset=["standard_value", "canonical_smiles"])
+            for act in activities:
+                smiles = act.get("canonical_smiles")
+                value = act.get("standard_value")
+                if smiles and value is not None:
+                    try:
+                        rows.append({
+                            "canonical_smiles": smiles,
+                            "standard_value": float(value),
+                        })
+                    except (ValueError, TypeError):
+                        continue
+
+            # Check if there are more pages
+            if data.get("page_meta", {}).get("next") is None:
+                break
+            offset += page_size
+
+    if not rows:
+        return pd.DataFrame(columns=["canonical_smiles", "standard_value", "pic50"])
+
+    df = pd.DataFrame(rows)
+    df = df[df["standard_value"] > 0]
     df = deduplicate_activities(df)
     df["pic50"] = df["standard_value"].apply(convert_to_pic50)
     df = df.dropna(subset=["pic50"])

@@ -113,34 +113,6 @@ wheels = [
 ]
 
 [[package]]
-name = "chembl-downloader"
-version = "0.5.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "click" },
-    { name = "more-click" },
-    { name = "pystow" },
-    { name = "tqdm" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/c0/cc/edfef71dd199fbb92d102e34b3fc727930f490bec06c253e50cf914b7a09/chembl_downloader-0.5.2.tar.gz", hash = "sha256:b74f7067fb8017e98b19ba1df2629165cffeaabb034551dda623b7b3eb1f3816", size = 25909, upload-time = "2025-09-04T09:10:56.751Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/24/41/585c46ec681c02028704f1f79789dfb5c7cac7309eacb074ddb306cfd125/chembl_downloader-0.5.2-py3-none-any.whl", hash = "sha256:565a5dfc4f7ebaf91035b8c88f6aba3e4ca7d6e77e1cbebed13fb64aa4f2b66b", size = 27463, upload-time = "2025-09-04T09:10:53.985Z" },
-]
-
-[[package]]
-name = "click"
-version = "8.3.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/3d/fa/656b739db8587d7b5dfa22e22ed02566950fbfbcdc20311993483657a5c0/click-8.3.1.tar.gz", hash = "sha256:12ff4785d337a1bb490bb7e9c2b1ee5da3112e94a8622f26a6c77f5d2fc6842a", size = 295065, upload-time = "2025-11-15T20:45:42.706Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/98/78/01c019cdb5d6498122777c1a43056ebb3ebfeef2076d9d026bfe15583b2b/click-8.3.1-py3-none-any.whl", hash = "sha256:981153a64e25f12d547d3426c367a4857371575ee7ad18df2a6183ab0545b2a6", size = 108274, upload-time = "2025-11-15T20:45:41.139Z" },
-]
-
-[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -448,18 +420,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/fb/df/5bd7a48c256faecd1d36edc13133e51397e41b73bb77e1a69deab746ebac/markupsafe-3.0.3-cp314-cp314t-win32.whl", hash = "sha256:915c04ba3851909ce68ccc2b8e2cd691618c4dc4c4232fb7982bca3f41fd8c3d", size = 14819, upload-time = "2025-09-27T18:37:26.285Z" },
     { url = "https://files.pythonhosted.org/packages/1a/8a/0402ba61a2f16038b48b39bccca271134be00c5c9f0f623208399333c448/markupsafe-3.0.3-cp314-cp314t-win_amd64.whl", hash = "sha256:4faffd047e07c38848ce017e8725090413cd80cbc23d86e55c587bf979e579c9", size = 15426, upload-time = "2025-09-27T18:37:27.316Z" },
     { url = "https://files.pythonhosted.org/packages/70/bc/6f1c2f612465f5fa89b95bead1f44dcb607670fd42891d8fdcd5d039f4f4/markupsafe-3.0.3-cp314-cp314t-win_arm64.whl", hash = "sha256:32001d6a8fc98c8cb5c947787c5d08b0a50663d139f1305bac5885d98d9b40fa", size = 14146, upload-time = "2025-09-27T18:37:28.327Z" },
-]
-
-[[package]]
-name = "more-click"
-version = "0.1.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "click" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/74/52/dc524f10307c472f3ee83ceef5cc3c3c1d987f9554c90cf34616bdcb2ca9/more_click-0.1.3.tar.gz", hash = "sha256:c170987d37334278169fe3b9b388f1fcd9fc96439579354fd7c537537a182128", size = 11793, upload-time = "2025-10-21T15:28:23.531Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/21/c8/62a253fdb3f66529ed0d7f0e4703fdb44cc8745610f199e173550d8f85eb/more_click-0.1.3-py3-none-any.whl", hash = "sha256:12f0f3da94c84d39daaaec08e9503df8877f493812f8ebc3f0713081da48d282", size = 12052, upload-time = "2025-10-21T15:28:22.456Z" },
 ]
 
 [[package]]
@@ -784,7 +744,6 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "botorch" },
-    { name = "chembl-downloader" },
     { name = "pandas" },
     { name = "rdkit" },
     { name = "requests" },
@@ -801,7 +760,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "botorch", specifier = ">=0.17.2" },
-    { name = "chembl-downloader", specifier = ">=0.5.2" },
     { name = "pandas", specifier = ">=3.0.2" },
     { name = "rdkit", specifier = ">=2025.9.6" },
     { name = "requests", specifier = ">=2.33.1" },
@@ -938,19 +896,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/4c/2e/3bcba8688d58f8dc954cef6831c19d52b6017b035d783685d67cd99fa351/pyro_ppl-1.9.1.tar.gz", hash = "sha256:5e1596de276c038a3f77d2580a90d0a97126e0104900444a088eee620bb0d65e", size = 570861, upload-time = "2024-06-02T00:37:39.688Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ed/37/def183a2a2c8619d92649d62fe0622c4c6c62f60e4151e8fbaa409e7d5ab/pyro_ppl-1.9.1-py3-none-any.whl", hash = "sha256:91fb2c8740d9d3bd548180ac5ecfa04552ed8c471a1ab66870180663b8f09852", size = 755956, upload-time = "2024-06-02T00:37:37.486Z" },
-]
-
-[[package]]
-name = "pystow"
-version = "0.8.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "tqdm" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/02/74/6d3ca88e7f10f5d45ca54cdca41e2c6ebf312dd6a3b970e98da19bbf09e2/pystow-0.8.3.tar.gz", hash = "sha256:90d927cfaa6172aaa0677005763b32f98ee5d9e0c4f243fc02943a90c08f2b98", size = 51566, upload-time = "2026-03-27T20:06:29.829Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/32/cb/25fc0914ad183958131f6f549a200b892225b3fad9dcb251062493204e42/pystow-0.8.3-py3-none-any.whl", hash = "sha256:022cc481b77d02b2df746f778a6d5014f3ed7b3abed96aacf46bc4333d61d2b6", size = 58588, upload-time = "2026-03-27T20:06:28.29Z" },
 ]
 
 [[package]]

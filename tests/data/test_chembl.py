@@ -52,9 +52,11 @@ class TestDeduplicateActivities:
 class TestLoadChemblActivities:
     @pytest.mark.slow
     def test_egfr_returns_data(self):
-        """Integration test: requires ChEMBL download (~2GB first time)."""
+        """Integration test: hits ChEMBL REST API (requires network)."""
         df = load_chembl_activities(target_chembl_id="CHEMBL203")
         assert len(df) > 100
         assert "canonical_smiles" in df.columns
         assert "pic50" in df.columns
         assert df["pic50"].notna().all()
+        # EGFR should have a substantial number of compounds
+        assert len(df) > 1000
