@@ -1,24 +1,12 @@
-<div align="center">
-
 # Pareto Screen
 
-### Multi-Objective Bayesian Optimization for Compound Selection in Drug Discovery
+Multi-objective Bayesian optimization for compound selection in drug discovery.
 
-*Select which molecules to synthesize from large candidate pools — balancing competing objectives like potency, drug-likeness, and synthetic accessibility under uncertainty.*
-
-[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![BoTorch](https://img.shields.io/badge/BoTorch-0.17-orange.svg)](https://botorch.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-
-</div>
-
----
+Select which molecules to synthesize from large candidate pools — balancing competing objectives like potency, drug-likeness, and synthetic accessibility under uncertainty.
 
 `pareto-screen` uses Gaussian process surrogate models and multi-objective acquisition functions (qLogNEHVI via BoTorch) to recommend which compounds to prioritize for expensive wet-lab synthesis. Evaluated on real bioactivity data from ChEMBL, it reaches **93% of the true Pareto hypervolume while evaluating only 24% of the candidate pool**.
 
-<p align="center">
-  <img src="results/hypervolume_curves.png" width="700" alt="Hypervolume curves showing BO outperforming baselines">
-</p>
+![Hypervolume curves showing BO outperforming baselines](docs/hypervolume_curves.png)
 
 ## The Problem
 
@@ -53,9 +41,7 @@ Benchmark on 500 EGFR compounds from ChEMBL with 4 objectives (QED, SA score, Lo
 
 BO reaches 93% of the true Pareto hypervolume while evaluating only 24% of the pool, outperforming random selection by +11.4% and single-objective greedy by +5.5%.
 
-<p align="center">
-  <img src="results/pareto_frontiers.png" width="700" alt="Pareto frontier projections for EGFR dataset">
-</p>
+![Pareto frontier projections for EGFR dataset](docs/pareto_frontiers.png)
 
 ## Design
 
